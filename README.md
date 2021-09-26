@@ -7,7 +7,7 @@ Single page app hosting with zero trouble.
 
 ```
 # It's this easy to host your own website.
-$ npm i -g gost-host
+$ npm i -g gost-cli
 $ gost -p path/to/my/webpage.html
 Checking if file exists and is in HTML format...
 File found, Checking for HTML syntax errors...
