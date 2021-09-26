@@ -1,2 +1,2 @@
-# hoster
- Host any single page application with just one command.
+# gost
+Single page app hosting with zero trouble.
