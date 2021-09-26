@@ -45,7 +45,7 @@ Gost uses a really small system to limit the submission rate to 2 seconds betwee
 ## Installation
 1. Make sure the latest version of NodeJS and NpmJS are installed on your system.
 2. Open your command line.
-3. Run `sudo npm i gost-host -g` to install gost.
+3. Run `sudo npm i gost-cli -g` to install gost.
 4. Now gost is installed on your system, Type in `gost --version` and press ENTER to verify.
 5. Run `gost /path/to/file` to host your file.
 6. Gost will check for HTML errors and will ask you to host on local server or the HTTP server.
