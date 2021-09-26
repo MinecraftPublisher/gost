@@ -1,7 +1,3 @@
-<<<<<<< Updated upstream
-# gost
-Single page app hosting with zero trouble.
-=======
 # Gost
 Single page app hosting with zero trouble.
 
@@ -23,4 +19,3 @@ Gost is a service for you to host
 	- If it failed, Gost will retry up to 5 times.
 	- If it still fails after that 5 times, You will get this error message `Error: Failed to connect to server and deploy site` and the program will quit.
 9. Thanks reading until the end, Have fun and goodbye!
->>>>>>> Stashed changes
