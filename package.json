@@ -1,6 +1,6 @@
 {
   "name": "gost-host",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Single page app hosting with zero trouble.",
   "main": "bin/index.js",
   "scripts": {
