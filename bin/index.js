@@ -6,6 +6,7 @@ const chalk = require('chalk')
 const yargs = require("yargs")
 const validator = require('html-validator')
 const readline = require("readline")
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const express = require('express')
 const open = require('open');
 const fs = require('fs')
@@ -67,14 +68,39 @@ function hostSelf() {
 }
 
 function runOnServer() {
+    var done = false
+
     console.log(chalk.greenBright.bold('Initiating connection to host server...'))
-    console.log(chalk.redBright.bold('[ gost does not support a host yet, but we are working on it ]'))
-    read.close()
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+            done = true
+            const response = xmlHttp.responseText
+            if (response == 'fail') {
+                exit = chalk.redBright.bold('Error: Failed to write data to the server, Please open an issue on gost\'s github repository.')
+                read.close()
+            }
+            else {
+                exit = chalk.greenBright.bold('[ SUCESS ]') + '\n' + chalk.yellowBright.bold('URL: ') + chalk.bgWhite.blackBright.bold(response)
+                read.close()
+            }
+        } else if (xmlHttp.readyState == 4 && xmlHttp.status != 200) {
+            done = true
+            exit = chalk.redBright.bold('Error: Failed to connect to server, Is there a firewall blocking your connection?')
+            read.close()
+        }
+    }
+    xmlHttp.open("POST", 'https://gost.martiaforoud.repl.co/gost', true);
+    xmlHttp.send(JSON.stringify({
+        "gost": true,
+        "data": file
+    }));
 }
 
-function quit () {
-    console.clear()
-    console.log(chalk.redBright.bold('[ Thanks for using gost ]'));
+var exit = chalk.redBright.bold('[ Thanks for using gost ]')
+
+function quit() {
+    console.log(exit);
     setTimeout(function () {
         process.exit();
     }, 100)
