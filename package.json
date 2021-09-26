@@ -1,0 +1,19 @@
+{
+  "name": "gost",
+  "version": "1.0.0",
+  "description": "Host any single page application with just one command.",
+  "main": "bin/index.js",
+  "scripts": {
+    "test": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MinecraftPublisher/gost.git"
+  },
+  "author": "martia_f",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MinecraftPublisher/gost/issues"
+  },
+  "homepage": "https://github.com/MinecraftPublisher/gost#readme"
+}
