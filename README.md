@@ -1,6 +1,6 @@
 # Gost
 ![Created Badge](https://badges.pufler.dev/created/MinecraftPublisher/gost)
-![Commits Badge](https://badges.pufler.dev/commits/monthly/MinecraftPublisher)
+![Gost website count](https://gost.martiaforoud.repl.co/badge/)
 
 
 Single page app hosting with zero trouble.
