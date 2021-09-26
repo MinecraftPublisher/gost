@@ -1,4 +1,8 @@
 # Gost
+![Created Badge](https://badges.pufler.dev/created/MinecraftPublisher/gost)
+![Commits Badge](https://badges.pufler.dev/commits/monthly/MinecraftPublisher)
+
+
 Single page app hosting with zero trouble.
 
 ```
