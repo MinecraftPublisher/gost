@@ -1,8 +1,42 @@
 # Gost
 Single page app hosting with zero trouble.
 
-## What is gost?
-Gost is a service for you to host 
+```
+# It's this easy to host your own website.
+$ npm i -g gost-host
+$ gost -p path/to/my/webpage.html
+Checking if file exists and is in HTML format...
+File found, Checking for HTML syntax errors...
+-- HTML file is valid --
+⚠️ Would you like to test your single page app or host it on the server? ( self/server ): server
+Initiating connection to host server...
+[ SUCCESS ]
+URL: https://gost.martiaforoud.repl.co/gost/my_gost_app.html
+```
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+## FAQ
+### What is gost?
+Gost is a service for you to host single page applications without any effort. Just run a single command to publish your gost app to the cloud.
+### How does it work?
+Gost uses an HTTPS server to host a php application that saves 
+
+### Why am I rate limited?
+Gost uses a really small system to limit the submission rate to 2 seconds between submits. If you try to submit your website between those two seconds, You get rate limited.
 
 ## Installation
 1. Make sure the latest version of NodeJS and NpmJS are installed on your system.

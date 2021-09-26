@@ -9,7 +9,8 @@ const readline = require("readline")
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const express = require('express')
 const open = require('open');
-const fs = require('fs')
+const fs = require('fs');
+const e = require('express');
 
 
 // Define dependency files.
@@ -81,13 +82,20 @@ function runOnServer() {
                 read.close()
             }
             else {
-                exit = chalk.greenBright.bold('[ SUCESS ]') + '\n' + chalk.yellowBright.bold('URL: ') + chalk.bgWhite.blackBright.bold(response)
+                exit = chalk.greenBright.bold('[ SUCCESS ]') + '\n' + chalk.yellowBright.bold('URL: ') + chalk.bgWhite.blackBright.bold(response)
                 read.close()
             }
-        } else if (xmlHttp.readyState == 4 && xmlHttp.status != 200) {
-            done = true
-            exit = chalk.redBright.bold('Error: Failed to connect to server, Is there a firewall blocking your connection?')
-            read.close()
+        }
+        else if (xmlHttp.readyState == 4 && xmlHttp.status != 200) {
+            if (xmlHttp.status == 429) {
+                exit = chalk.redBright.bold('Error: The server is locked, Please try again in ' + xmlHttp.responseText + ' seconds.')
+                read.close()
+            }
+            else {
+                done = true
+                exit = chalk.redBright.bold('Error: Failed to connect to server, Is there a firewall blocking your connection?')
+                read.close()
+            }
         }
     }
     xmlHttp.open("POST", 'https://gost.martiaforoud.repl.co/gost', true);
