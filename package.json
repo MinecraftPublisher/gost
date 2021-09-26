@@ -1,5 +1,5 @@
 {
-  "name": "gost-host",
+  "name": "gost-cli",
   "version": "2.1.0",
   "description": "Single page app hosting with zero trouble.",
   "main": "bin/index.js",
