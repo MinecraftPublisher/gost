@@ -8,26 +8,34 @@ const validator = require('html-validator')
 const readline = require("readline")
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const express = require('express')
-const open = require('open');
-const fs = require('fs');
-const e = require('express');
+const open = require('open')
+const fs = require('fs')
 
+var exit = chalk.redBright.bold('[ Thanks for using gost ]')
 
 // Define dependency files.
 const options = yargs
-    .option("p", { alias: "publish", describe: "Path to a file you want to publish.", type: "string", demandOption: true })
+    .option("p", { alias: "publish", describe: "Path to a file you want to publish.", type: "string" })
+    .option("d", { alias: "discord", describe: "Join our discord server" })
     .argv
 const read = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 })
 
+if (options.discord)
+    quit()
+
+if(process.argv.length == 2) {
+    exit = '[ gost ]\nSingle page app hosting with zero trouble.\nRun ' + chalk.bgYellow.black.bold('gost --version') + ' to view your current gost version\nRun ' + chalk.bgYellow.black.bold('gost --help') + ' to view available options.'
+    quit()
+}
 
 // Check if path exists and it is an HTML file.
 console.log(chalk.yellowBright('Checking if file exists and is in HTML format...'))
-const path = options.publish;
-if (!path.endsWith('.html')) { console.log(chalk.red.bold('Error: The specified file is not in HTML format.')); return }
-if (!fs.existsSync(path)) { console.log(chalk.red.bold('Error: Couldn\'t find the specified file.')); return }
+const path = options.publish || '';
+if (!path.endsWith('.html')) { exit = chalk.red.bold('Error: The specified file is not in HTML format.'); quit() }
+if (!fs.existsSync(path)) { exit = chalk.red.bold('Error: Couldn\'t find the specified file.'); quit() }
 
 
 // Read the file and check formatting.
@@ -105,13 +113,11 @@ function runOnServer() {
     }));
 }
 
-var exit = chalk.redBright.bold('[ Thanks for using gost ]')
 
 function quit() {
     console.log(exit);
-    setTimeout(function () {
-        process.exit();
-    }, 100)
+    console.log(chalk.greenBright.bold('Make sure to join our discord: https://discord.gg/PjRkS7V8HM'))
+    process.exit();
 }
 
 read.on('close', quit)
