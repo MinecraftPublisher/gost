@@ -4,7 +4,7 @@
   "description": "Single page app hosting with zero trouble.",
   "main": "bin/index.js",
   "scripts": {
-    "test": "clear && gost"
+    "test": "echo \"No tests to pass.\""
   },
   "repository": {
     "type": "git",
