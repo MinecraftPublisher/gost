@@ -1,10 +1,10 @@
 {
   "name": "gost",
   "version": "1.0.0",
-  "description": "Host any single page application with just one command.",
+  "description": "Single page app hosting with zero trouble.",
   "main": "bin/index.js",
   "scripts": {
-    "test": "node ."
+    "test": "clear && gost"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,16 @@
   "bugs": {
     "url": "https://github.com/MinecraftPublisher/gost/issues"
   },
-  "homepage": "https://github.com/MinecraftPublisher/gost#readme"
+  "homepage": "https://github.com/MinecraftPublisher/gost#readme",
+  "bin": {
+    "gost": "./bin/index.js"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "express": "^4.17.1",
+    "html-validator": "^5.1.17",
+    "open": "^8.2.1",
+    "readline": "^1.3.0",
+    "yargs": "^17.2.1"
+  }
 }
