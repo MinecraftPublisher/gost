@@ -1,6 +1,6 @@
 {
   "name": "gost-cli",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Single page app hosting with zero trouble.",
   "main": "bin/index.js",
   "scripts": {
