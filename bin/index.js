@@ -89,6 +89,8 @@ function install(data, package) {
     progress1()
 }
 
+var file;
+
 function progress1() {
     // Check if path exists and it is an HTML file.
     console.log(chalk.yellowBright('Checking if file exists and is in HTML format...'))
@@ -99,8 +101,7 @@ function progress1() {
 
     // Read the file and check formatting.
     console.log(chalk.yellowBright('File found, Checking for HTML syntax errors...'))
-    const file = fs.readFileSync(path).toString()
-
+    file = fs.readFileSync(path).toString()
     validator({
         format: 'text',
         data: file
