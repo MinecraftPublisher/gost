@@ -105,7 +105,7 @@ function progress1() {
         format: 'text',
         data: file
     })
-        .then((result) => { console.log(chalk.greenBright.bold('-- HTML file is valid --')); httpGetAsync('https://api.countapi.xyz/hit/gost-cli.js.org/visits', progress1()) })
+        .then((result) => { console.log(chalk.greenBright.bold('-- HTML file is valid --')); httpGetAsync('https://api.countapi.xyz/hit/gost-cli.js.org/visits', progress1) })
         .catch((err) => { console.error(err) })
 }
 
