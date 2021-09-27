@@ -1,5 +1,5 @@
 # Gost
-![Created Badge](https://badges.pufler.dev/created/MinecraftPublisher/gost)
+![Created Badge](https://badges.pufler.dev/created/MinecraftPublisher/gost-cli)
 ![Gost website count](https://gost.martiaforoud.repl.co/badge)
 
 
