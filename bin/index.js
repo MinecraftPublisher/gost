@@ -13,6 +13,17 @@ const fs = require('fs')
 
 var exit = chalk.redBright.bold('[ Thanks for using gost ]')
 
+function httpGetAsync(theUrl, callback)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            callback(xmlHttp.responseText);
+    }
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+    xmlHttp.send(null);
+}
+
 // Define dependency files.
 const options = yargs
     .option("p", { alias: "publish", describe: "Path to a file you want to publish.", type: "string" })
@@ -46,7 +57,7 @@ validator({
     format: 'text',
     data: file
 })
-    .then((result) => { console.log(chalk.greenBright.bold('-- HTML file is valid --')); progress1() })
+    .then((result) => { console.log(chalk.greenBright.bold('-- HTML file is valid --')); httpGetAsync('https://api.countapi.xyz/hit/gost-cli.js.org/visits', progress1()) })
     .catch((err) => { console.error(err) })
 
 function progress1() {
