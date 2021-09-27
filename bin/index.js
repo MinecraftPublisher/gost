@@ -9,16 +9,20 @@ const readline = require("readline")
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const express = require('express')
 const open = require('open')
+const path = require('path');
 const fs = require('fs')
 
 var exit = chalk.redBright.bold('[ Thanks for using gost ]')
 
-function httpGetAsync(theUrl, callback)
-{
+function httpGetAsync(theUrl, callback) {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function() { 
+    xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
             callback(xmlHttp.responseText);
+        else if(xmlHttp.readyState == 4) {
+            exit = chalk.redBright.bold('[ Failed to receive update with error code ' + xmlHttp.status + ' ]')
+            quit()
+        }
     }
     xmlHttp.open("GET", theUrl, true); // true for asynchronous 
     xmlHttp.send(null);
@@ -28,39 +32,80 @@ function httpGetAsync(theUrl, callback)
 const options = yargs
     .option("p", { alias: "publish", describe: "Path to a file you want to publish.", type: "string" })
     .option("d", { alias: "discord", describe: "Join our discord server" })
+    .option("u", { alias: "update", describe: ""})
     .argv
 const read = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 })
 
+if(options.update)
+    update()
+
 if (options.discord)
     quit()
 
-if(process.argv.length == 2) {
-    exit = '[ gost ]\nSingle page app hosting with zero trouble.\nRun ' + chalk.bgYellow.black.bold('gost --version') + ' to view your current gost version\nRun ' + chalk.bgYellow.black.bold('gost --help') + ' to view available options.'
+if (process.argv.length == 2) {
+    exit = '[ gost ]\nSingle page app hosting with zero trouble.\nRun ' + chalk.bgYellow.black.bold('gost --version') + ' to view your current gost version\nRun ' + chalk.bgYellow.black.bold('gost --help') + ' to view available options.\nRun ' + chalk.bgYellow.black.bold('gost --update') + ' to check for updates.'
     quit()
 }
 
-// Check if path exists and it is an HTML file.
-console.log(chalk.yellowBright('Checking if file exists and is in HTML format...'))
-const path = options.publish || '';
-if (!path.endsWith('.html')) { exit = chalk.red.bold('Error: The specified file is not in HTML format.'); quit() }
-if (!fs.existsSync(path)) { exit = chalk.red.bold('Error: Couldn\'t find the specified file.'); quit() }
+function update() {
+    console.log(chalk.yellowBright.bold('Checking if there are any available updates...'))
+    httpGetAsync('https://github.com/MinecraftPublisher/gost-cli/raw/main/bin/index.js', function (data) {
+        console.log('Received pack1')
+        httpGetAsync('https://github.com/MinecraftPublisher/gost-cli/raw/main/package.json', function (package) {
+            console.log('Received pack2')
+            promptInstall(data, package)
+        })
+    })
+}
 
+function promptInstall(data, package) {
+    const current = fs.readFileSync(__filename).toString()
+    if (current == data) {
+        console.log(chalk.green.bold('[ NEW VERSION FOUND ]'))
+        read.question('Would you like to update to the newer version? (y/N) ', function(res) {
+            if(res.toLowerCase() == 'y')
+                install(data, package)
+            else if(res.toLowerCase() == 'n')
+                progress1()
+            else {
+                console.log(chalk.bold(res) + ' is not a valid option!')
+                promptInstall()
+            }
+        })
+    }
+}
 
-// Read the file and check formatting.
-console.log(chalk.yellowBright('File found, Checking for HTML syntax errors...'))
-const file = fs.readFileSync(path).toString()
-
-validator({
-    format: 'text',
-    data: file
-})
-    .then((result) => { console.log(chalk.greenBright.bold('-- HTML file is valid --')); httpGetAsync('https://api.countapi.xyz/hit/gost-cli.js.org/visits', progress1()) })
-    .catch((err) => { console.error(err) })
+function install(data, package) {
+    fs.writeFileSync(__filename, data)
+    fs.writeFileSync(path.join(__dirname, '..', 'package.json'), package)
+    console.log(chalk.greenBright.bold('-- UPDATE COMPLETE --'))
+    progress1()
+}
 
 function progress1() {
+    // Check if path exists and it is an HTML file.
+    console.log(chalk.yellowBright('Checking if file exists and is in HTML format...'))
+    const path = options.publish || '';
+    if (!path.endsWith('.html')) { exit = chalk.red.bold('Error: The specified file is not in HTML format.'); quit() }
+    if (!fs.existsSync(path)) { exit = chalk.red.bold('Error: Couldn\'t find the specified file.'); quit() }
+
+
+    // Read the file and check formatting.
+    console.log(chalk.yellowBright('File found, Checking for HTML syntax errors...'))
+    const file = fs.readFileSync(path).toString()
+
+    validator({
+        format: 'text',
+        data: file
+    })
+        .then((result) => { console.log(chalk.greenBright.bold('-- HTML file is valid --')); httpGetAsync('https://api.countapi.xyz/hit/gost-cli.js.org/visits', progress1()) })
+        .catch((err) => { console.error(err) })
+}
+
+function progress2() {
     read.question('⚠️ Would you like to test your single page app or host it on the server? ( self/server ): ', function (response) {
         if (response.toLowerCase() == 'self') {
             hostSelf()
@@ -68,7 +113,7 @@ function progress1() {
             runOnServer()
         } else {
             console.log(chalk.redBright.bold('Error: ' + response.toLowerCase() + ' is not a valid option.'))
-            progress1()
+            progress2()
         }
     })
 }
