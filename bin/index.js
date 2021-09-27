@@ -50,6 +50,10 @@ if (process.argv.length == 2) {
     quit()
 }
 
+if(options.publish) {
+    progress1()
+}
+
 function update() {
     console.log(chalk.yellowBright.bold('Checking if there are any available updates...'))
     httpGetAsync('https://github.com/MinecraftPublisher/gost-cli/raw/main/bin/index.js', function (data) {
